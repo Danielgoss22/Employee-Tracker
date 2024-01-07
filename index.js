@@ -18,7 +18,7 @@ function start() {
           "Add a Department",
           "Add a Role",
           "Add an  Employee",
-          "Update an EMployee role",
+          "Update an Employee role",
         ],
       },
     ])
@@ -63,7 +63,7 @@ function start() {
             start();
           });
           break;
-        case "Update an EMployee role":
+        case "Update an Employee role":
           db.updateEmployeeRole().then((data) => {
             console.table(data[0]);
             start();
