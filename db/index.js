@@ -14,10 +14,13 @@ class DB {
       );
   }
 
-  createEmployee(employee) {
+  createEmployee(first_name, last_name, role_id, manager_id) {
     return this.connection
       .promise()
-      .query("INSERT INTO employee SET ?", employee);
+      .query(
+        "INSERT INTO employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?",
+        [first_name, last_name, role_id, manager_id]
+      );
   }
 
   updateEmployeeRole(roleId, employeeId) {

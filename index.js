@@ -17,7 +17,7 @@ function start() {
           "View all Employees",
           "Add a Department",
           "Add a Role",
-          "Add an  Employee",
+          "Add an Employee",
           "Update an Employee role",
         ],
       },
@@ -40,7 +40,7 @@ function start() {
           });
           console.log("roles");
           break;
-        case "View all Employee's":
+        case "View all Employees":
           db.findAllEmployees().then((data) => {
             console.table(data[0]);
             start();
@@ -91,11 +91,44 @@ function start() {
               );
             });
           break;
-        case "Add an  Employee":
-          db.createEmployee().then((data) => {
-            console.table(data[0]);
-            start();
-          });
+        case "Add an Employee":
+          inquirer
+            .prompt([
+              {
+                type: "input",
+                message:
+                  "What is the first name of the employee you would like to add?",
+                name: "first_name",
+              },
+              {
+                type: "input",
+                message:
+                  "What is the last name of the employee you would like to add?",
+                name: "last_name",
+              },
+              {
+                type: "input",
+                message: "What is the role of this new employee?",
+                name: "role_id",
+              },
+              {
+                type: "input",
+                message: "Who is the manager of this employee?",
+                name: "manager_id",
+              },
+            ])
+            .then((data) => {
+              db.createEmployee(
+                data.first_name,
+                data.last_name,
+                data.role_id,
+                data.manager_id
+              ).then((data) => {
+                console.log(data);
+                start();
+              });
+            });
+
           break;
         case "Update an Employee role":
           inquirer
