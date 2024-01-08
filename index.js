@@ -14,7 +14,7 @@ function start() {
         choices: [
           "View all Departments",
           "View all Roles",
-          "View all Employee's",
+          "View all Employees",
           "Add a Department",
           "Add a Role",
           "Add an  Employee",
@@ -64,10 +64,32 @@ function start() {
 
           break;
         case "Add a Role":
-          db.creatRole().then((data) => {
-            console.table(data[0]);
-            start();
-          });
+          inquirer
+            .prompt([
+              {
+                type: "input",
+                message: "What role would you like to add?",
+                name: "title",
+              },
+              {
+                type: "input",
+                message: "What salary would you like to add to this role?",
+                name: "salary",
+              },
+              {
+                type: "input",
+                message: "What department would add this role to?",
+                name: "department_id",
+              },
+            ])
+            .then((data) => {
+              db.createRole(data.title, data.salary, data.department_id).then(
+                (data) => {
+                  console.log(data);
+                  start();
+                }
+              );
+            });
           break;
         case "Add an  Employee":
           db.createEmployee().then((data) => {
