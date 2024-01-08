@@ -22,18 +22,19 @@ function start() {
         ],
       },
     ])
+
     .then((data) => {
       const db = new DB(connection);
       switch (data.allEmployees) {
         case "View all Departments":
-          db.findAllDepartments().then((data) => {
+          db.findDepartments().then((data) => {
             console.table(data[0]);
             start();
           });
           console.log("departments");
           break;
         case "View all Roles":
-          db.findAllRoles().then((data) => {
+          db.findRoles().then((data) => {
             console.table(data[0]);
             start();
           });
@@ -46,10 +47,21 @@ function start() {
           });
           break;
         case "Add a Department":
-          db.createDepartment().then((data) => {
-            console.table(data[0]);
-            start();
-          });
+          inquirer
+            .prompt([
+              {
+                type: "input",
+                message: "What department would you like to add?",
+                name: "name",
+              },
+            ])
+            .then((data) => {
+              db.createDepartment(data).then((data) => {
+                console.log("Department sucsessfully added!");
+                start();
+              });
+            });
+
           break;
         case "Add a Role":
           db.creatRole().then((data) => {
@@ -64,10 +76,25 @@ function start() {
           });
           break;
         case "Update an Employee role":
-          db.updateEmployeeRole().then((data) => {
-            console.table(data[0]);
-            start();
-          });
+          inquirer
+            .prompt([
+              {
+                type: "input",
+                message: "What employee would you like to update?",
+                name: "role_id",
+              },
+              {
+                type: "input",
+                message: "What role would you like to assign to this employee?",
+                name: "id",
+              },
+            ])
+            .then((data) => {
+              db.updateEmployeeRole(data.role_id, data.id).then((data) => {
+                console.log(data);
+                start();
+              });
+            });
           break;
         default:
           console.log(data);

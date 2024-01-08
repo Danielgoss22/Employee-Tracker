@@ -35,7 +35,7 @@ class DB {
       .query("DELETE FROM employee WHERE id = ?", employeeId);
   }
 
-  updateEmployeeRole(employeeId, roleId) {
+  updateEmployeeRole(roleId, employeeId) {
     return this.connection
       .promise()
       .query("UPDATE employee SET role_id = ? WHERE id = ?", [
@@ -53,11 +53,11 @@ class DB {
       ]);
   }
 
-  findAllRoles() {
+  findRoles() {
     return this.connection
       .promise()
       .query(
-        "SELECT role_id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;"
+        "SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;"
       );
   }
 
@@ -71,10 +71,10 @@ class DB {
       .query("DELETE FROM role WHERE id = ?", roleId);
   }
 
-  findAllDepartments() {
+  findDepartments() {
     return this.connection
       .promise()
-      .query("SELECT department_id, department.name, FROM department;");
+      .query("SELECT department.id, department.name FROM department;");
   }
 
   createDepartment(department) {
